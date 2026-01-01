@@ -1,13 +1,13 @@
 # 📚 CausalityCare - Complete Technical Documentation
 
-**A comprehensive guide to CausalityCare's architecture, implementation, and Google Gemini 3 Flash integration.**
+**A comprehensive guide to CausalityCare's architecture, implementation, and Google Gemini 3 API (early access) integration.**
 
 ## Table of Contents
 1. [Architecture Overview](#architecture-overview)
 2. [Technology Stack](#technology-stack)
 3. [Backend Implementation](#backend-implementation)
 4. [Frontend Implementation](#frontend-implementation)
-5. [Gemini 3 Flash Integration](#gemini-3-flash-integration)
+5. [Gemini 3 API Integration](#gemini-3-api-integration)
 6. [API Reference](#api-reference)
 7. [Sample Demos](#sample-demos--usage)
 8. [Deployment Guide](#deployment-guide)
@@ -21,7 +21,7 @@
 Browser (4200)              Backend (8000)              Cloud/Local
 ┌──────────────────┐      ┌──────────────────┐      ┌──────────────┐
 │  Angular 17 UI   │─────▶│  FastAPI Server  │─────▶│ Gemini 3     │
-│  ├─ Check-in     │      │  ├─ /analyze     │      │ Flash API    │
+│  ├─ Check-in     │      │  ├─ /analyze     │      │ Pro (Early)  │
 │  ├─ Graph View   │      │  ├─ /history     │      │              │
 │  └─ History      │      │  └─ /trends      │      └──────────────┘
 └──────────────────┘      └────────┬─────────┘
@@ -52,7 +52,7 @@ Browser (4200)              Backend (8000)              Cloud/Local
 | Server | Uvicorn | 0.24.0 | ASGI server |
 | ORM | SQLAlchemy | 2.0.23 | Database management |
 | Database | SQLite | 3.x | Data persistence |
-| **AI** | **Gemini API** | **3-flash** | **Multimodal reasoning** |
+| **AI** | **Gemini API** | **3-pro-preview** | **Multimodal reasoning** |
 | Image | PIL | 9.5+ | Image processing |
 | Audio | librosa | 0.10.0 | Audio features |
 | Config | Pydantic | 2.5.0 | Settings validation |
@@ -285,16 +285,16 @@ renderGraph() {
 
 ---
 
-## Gemini 3 Flash Integration
+## Gemini 3 API Integration
 
-### Why Gemini 3 Flash?
+### Why Gemini 3 Pro (Early Access)?
 
 **Best Choice Because:**
 - ✅ **Multimodal Native**: Text + Image + Audio in ONE call
 - ✅ **Fastest**: Sub-200ms response time (best in class)
 - ✅ **Cost-Effective**: Most economical per token
 - ✅ **Structured Output**: JSON schema enforcement
-- ✅ **Latest**: Next-generation reasoning capabilities with improved accuracy
+- ✅ **Next-Gen**: Advanced reasoning capabilities (early access program)
 
 **vs Competitors:**
 | Feature | Gemini 3 | Claude 3.5 | GPT-4 |
@@ -308,7 +308,7 @@ renderGraph() {
 ```python
 def analyze_checkin(user_input: str) -> str:
     response = client.models.generate_content(
-        model="gemini-3-flash",
+        model="gemini-3-pro-preview",
         contents=[{
             "role": "user",
             "parts": [{
@@ -335,7 +335,7 @@ async def analyze_mood_board(image_path: str) -> dict:
     
     # Call Gemini with vision
     response = client.models.generate_content(
-        model="gemini-3-flash",
+        model="gemini-3-pro-preview",
         contents=[{
             "parts": [
                 {"text": "Analyze image for mood, environment, wellness..."},

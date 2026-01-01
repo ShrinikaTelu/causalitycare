@@ -1,4 +1,11 @@
-# 🧠 CausalityCare - AI-Powered Causal Reasoning for Wellbeing
+# 🧠 CausalityCare - A### Backend
+- **Framework**: FastAPI 0.104.1 (Python async)
+- **AI/ML**: Goog1. **Enter Check-in**: Text + optional image/audio
+2. **Analyze**: AI processes all inputs with Gemini 3 Pro
+3. **Explore**: See causal graph, confidence scores, micro-actions
+4. **Track**: Monitor patterns over timeemini 3 API (REST) - Early Access
+- **Database**: SQLite + SQLAlchemy ORM
+- **Server**: Uvicorn ASGIered Causal Reasoning for Wellbeing
 
 **A multimodal AI platform that helps you understand the root causes of stress, anxiety, and burnout through structured causal reasoning—not therapy, not chatbots, just clarity.**
 
@@ -94,18 +101,18 @@ http://localhost:4200
 ## 📊 How It Works
 
 1. **Enter Check-in**: Text + optional image/audio
-2. **Analyze**: AI processes all inputs with Gemini 3 Flash
+2. **Analyze**: AI processes all inputs with Gemini 3 Pro
 3. **Explore**: See causal graph, confidence scores, micro-actions
 4. **Track**: Monitor patterns over time
 
-## 🔑 Exclusive Gemini 3 Flash Usage
+## 🔑 Exclusive Gemini 3 API Usage
 
-Why Gemini 3 Flash?
+Why Gemini 3 (Early Access)?
 - ✅ **Multimodal Native**: Text + Image + Audio in one call
 - ✅ **Fastest**: Sub-200ms response time
 - ✅ **Cost-Effective**: Most economical per token
 - ✅ **Structured Output**: JSON format enforced
-- ✅ **Latest**: Next-generation AI reasoning capabilities
+- ✅ **Latest Gen**: Next-generation AI reasoning (early access)
 
 ## 📄 Documentation
 
