@@ -8,10 +8,10 @@ logger = logging.getLogger(__name__)
 
 # Initialize Gemini client
 client = genai.Client(api_key=settings.gemini_api_key)
-MODEL = "gemini-2.0-flash"
+MODEL = "gemini-3-flash"
 
 # REST API endpoint for vision/multimodal requests
-GEMINI_REST_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+GEMINI_REST_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash:generateContent"
 
 def call_gemini_rest_api(contents: list, temperature: float = 1.0, max_tokens: int = 2048) -> str:
     """
@@ -61,7 +61,7 @@ from prompts import DEFAULT_PROMPT
 
 def analyze_checkin(user_input: str, audio_transcript: str = None, image_description: str = None) -> str:
     """
-    Send user input to Gemini 2.0 Flash and return structured causal analysis.
+    Send user input to Gemini 3 Flash and return structured causal analysis.
     
     Args:
         user_input: Text journal entry
