@@ -54,9 +54,11 @@ def startup_event():
 
 @app.get("/health")
 def health_check():
+    from config import settings
     return {
         "status": "healthy",
         "multimodal_enabled": MULTIMODAL_ENABLED,
+        "gemini_api_key_configured": settings.gemini_api_key is not None,
         "version": "2.1.0"
     }
 

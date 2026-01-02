@@ -6,8 +6,17 @@ import json
 
 logger = logging.getLogger(__name__)
 
-# Initialize Gemini client
-client = genai.Client(api_key=settings.gemini_api_key)
+# Initialize Gemini client (only if API key is available)
+client = None
+if settings.gemini_api_key:
+    try:
+        client = genai.Client(api_key=settings.gemini_api_key)
+        logger.info("✓ Gemini client initialized")
+    except Exception as e:
+        logger.error(f"Failed to initialize Gemini client: {e}")
+else:
+    logger.warning("⚠️  Gemini API key not set. Gemini features will not work.")
+
 MODEL = "gemini-3-pro-preview"
 
 # REST API endpoint for vision/multimodal requests
@@ -26,8 +35,14 @@ def call_gemini_rest_api(contents: list, temperature: float = 1.0, max_tokens: i
         str: Generated text response
         
     Raises:
-        ValueError: If API call fails
+        ValueError: If API call fails or API key not configured
     """
+    if not settings.gemini_api_key:
+        raise ValueError(
+            "GEMINI_API_KEY environment variable is not set. "
+            "Set it in Railway Variables or your .env file to use the analyze endpoint."
+        )
+    
     try:
         payload = {
             'contents': contents,
@@ -102,6 +117,13 @@ def analyze_checkin(user_input: str, audio_transcript: str = None, image_descrip
             full_input += f"\n\n[IMAGE CONTEXT]\n{image_description}"
     
     logger.info(f"→ Sending check-in to Gemini ({len(full_input)} chars)")
+    
+    # Check if API key is set
+    if not settings.gemini_api_key:
+        raise ValueError(
+            "GEMINI_API_KEY environment variable is not set. "
+            "The analyze endpoint requires this. Please set it in Railway Variables."
+        )
     
     try:
         # Call Gemini API
