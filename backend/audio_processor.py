@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 # Initialize Gemini client
 client = genai.Client(api_key=settings.gemini_api_key)
-MODEL = "gemini-2.0-flash"
+MODEL = "gemini-3-pro-preview"
 
 # Supported audio formats
 SUPPORTED_AUDIO_FORMATS = {

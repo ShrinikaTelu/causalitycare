@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { timeout } from 'rxjs/operators';
 
 /**
  * CausalEdge: Single cause → effect relationship
@@ -89,6 +90,8 @@ export interface CheckInResponse {
 @Injectable({ providedIn: 'root' })
 export class CausalityService {
   private baseUrl = 'http://localhost:8000';
+  // Set timeout to 2 minutes for analysis (backend can take 14-60 seconds)
+  private readonly ANALYZE_TIMEOUT_MS = 120000;
 
   constructor(private http: HttpClient) {}
 
@@ -96,7 +99,8 @@ export class CausalityService {
    * Send check-in (text + optional files) for analysis
    */
   analyze(formData: FormData): Observable<CheckInResponse> {
-    return this.http.post<CheckInResponse>(`${this.baseUrl}/analyze`, formData);
+    return this.http.post<CheckInResponse>(`${this.baseUrl}/analyze`, formData)
+      .pipe(timeout(this.ANALYZE_TIMEOUT_MS));
   }
 
   /**
