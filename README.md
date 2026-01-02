@@ -2,9 +2,10 @@
 <img width="963" height="725" alt="image" src="https://github.com/user-attachments/assets/c9887c73-1c55-480c-acd2-b7a8b812a305" />
 
 
-- Backend
+- **Backend**
 - **Framework**: FastAPI 0.104.1 (Python async)
-- **AI/ML**: Goog1. **Enter Check-in**: Text + optional image/audio
+- **AI/ML**: Goog
+1. **Enter Check-in**: Text + optional image/audio
 2. **Analyze**: AI processes all inputs with Gemini 3 Pro
 3. **Explore**: See causal graph, confidence scores, micro-actions
 4. **Track**: Monitor patterns over timeemini 3 API (REST) - Early Access
