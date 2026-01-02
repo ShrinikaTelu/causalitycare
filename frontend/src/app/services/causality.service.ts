@@ -93,7 +93,7 @@ export interface CheckInResponse {
 
 @Injectable({ providedIn: 'root' })
 export class CausalityService {
-  private baseUrl = 'http://localhost:8000';
+  private baseUrl = 'https://causalitycare-production.up.railway.app';
   // Set timeout to 2 minutes for analysis (backend can take 14-60 seconds)
   private readonly ANALYZE_TIMEOUT_MS = 120000;
 
