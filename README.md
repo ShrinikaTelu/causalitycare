@@ -1,5 +1,5 @@
 # 🧠 CausalityCare 
-<img width="963" height="725" alt="image" src="https://github.com/user-attachments/assets/c9887c73-1c55-480c-acd2-b7a8b812a305" />
+[<img width="963" height="725" alt="image" src="https://github.com/user-attachments/assets/c9887c73-1c55-480c-acd2-b7a8b812a305" />](https://ShrinikaTelu.github.io/causalitycare/)
 
 
 - **Backend**
