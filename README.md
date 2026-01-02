@@ -29,7 +29,7 @@ CausalityCare is a **structured causal reasoning engine** that analyzes your emo
 
 ### Backend
 - **Framework**: FastAPI 0.104.1 (Python async)
-- **AI/ML**: Google Gemini 3 Flash API (REST)
+- **AI/ML**: Google Gemini 3 Pro API (Early Access) - REST
 - **Database**: SQLite + SQLAlchemy ORM
 - **Server**: Uvicorn ASGI
 
@@ -101,18 +101,18 @@ http://localhost:4200
 ## 📊 How It Works
 
 1. **Enter Check-in**: Text + optional image/audio
-2. **Analyze**: AI processes all inputs with Gemini 3 Pro
+2. **Analyze**: AI processes all inputs with Gemini 3 Pro API
 3. **Explore**: See causal graph, confidence scores, micro-actions
 4. **Track**: Monitor patterns over time
 
-## 🔑 Exclusive Gemini 3 API Usage
+## 🔑 Exclusive Gemini 3 Pro API Usage (Early Access)
 
-Why Gemini 3 (Early Access)?
+Why Gemini 3 Pro (Early Access)?
 - ✅ **Multimodal Native**: Text + Image + Audio in one call
 - ✅ **Fastest**: Sub-200ms response time
 - ✅ **Cost-Effective**: Most economical per token
 - ✅ **Structured Output**: JSON format enforced
-- ✅ **Latest Gen**: Next-generation AI reasoning (early access)
+- ✅ **Next-Gen**: Advanced reasoning (Gemini 3 Pro - Early Access)
 
 ## 📄 Documentation
 

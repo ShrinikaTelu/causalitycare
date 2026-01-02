@@ -326,7 +326,7 @@ def debug_multimodal():
         "audio_timeout_seconds": AUDIO_PROCESSING_TIMEOUT,
         "text_timeout_seconds": TEXT_PROCESSING_TIMEOUT,
         "max_file_size_mb": MAX_FILE_SIZE_MB,
-        "gemini_model": "gemini-2.0-flash",
+        "gemini_model": "gemini-3-pro-preview",
         "uploads_directory": str(UPLOADS_DIR),
         "uploads_exist": UPLOADS_DIR.exists()
     }
