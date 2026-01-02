@@ -333,9 +333,13 @@ def debug_multimodal():
 
 
 if __name__ == "__main__":
+    import os
     import uvicorn
+    port = int(os.getenv("PORT", 8000))
+    reload = os.getenv("ENVIRONMENT") == "development"
     print("=" * 60)
     print("🚀 CausalityCare API v2.1.0")
     print(f"✓ Multimodal: {'ENABLED' if MULTIMODAL_ENABLED else 'DISABLED'}")
+    print(f"✓ Port: {port}")
     print("=" * 60)
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=reload)
