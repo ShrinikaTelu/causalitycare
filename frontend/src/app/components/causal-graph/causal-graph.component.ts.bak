@@ -58,47 +58,47 @@ interface VisEdge {
       
       <div class="mood-board-content">
         <!-- Visual Mood -->
-        <div *ngIf="moodBoard.mood_analysis.visual_mood" class="analysis-card visual-mood">
+        <div *ngIf="moodBoard.visual_mood" class="analysis-card visual-mood">
           <h4>Visual Mood</h4>
-          <p><strong>Colors:</strong> {{ moodBoard.mood_analysis.visual_mood.colors }}</p>
-          <p><strong>Composition:</strong> {{ moodBoard.mood_analysis.visual_mood.composition }}</p>
-          <p *ngIf="moodBoard.mood_analysis.visual_mood.primary_subjects.length > 0">
-            <strong>Elements:</strong> {{ moodBoard.mood_analysis.visual_mood.primary_subjects.join(', ') }}
+          <p><strong>Colors:</strong> {{ moodBoard.visual_mood.colors }}</p>
+          <p><strong>Composition:</strong> {{ moodBoard.visual_mood.composition }}</p>
+          <p *ngIf="moodBoard.visual_mood.primary_subjects.length > 0">
+            <strong>Elements:</strong> {{ moodBoard.visual_mood.primary_subjects.join(', ') }}
           </p>
         </div>
 
         <!-- Emotional Signals -->
-        <div *ngIf="moodBoard.mood_analysis.emotional_signals" class="analysis-card emotional-signals">
+        <div *ngIf="moodBoard.emotional_signals" class="analysis-card emotional-signals">
           <h4>Emotional Signals</h4>
-          <p *ngIf="moodBoard.mood_analysis.emotional_signals.primary_emotions.length > 0">
-            <strong>Emotions:</strong> {{ moodBoard.mood_analysis.emotional_signals.primary_emotions.join(', ') }}
+          <p *ngIf="moodBoard.emotional_signals.primary_emotions.length > 0">
+            <strong>Emotions:</strong> {{ moodBoard.emotional_signals.primary_emotions.join(', ') }}
           </p>
-          <p><strong>Energy:</strong> {{ moodBoard.mood_analysis.emotional_signals.energy_level }}</p>
-          <p><strong>Intensity:</strong> {{ (moodBoard.mood_analysis.emotional_signals.emotional_intensity * 100).toFixed(0) }}%</p>
+          <p><strong>Energy:</strong> {{ moodBoard.emotional_signals.energy_level }}</p>
+          <p><strong>Intensity:</strong> {{ (moodBoard.emotional_signals.emotional_intensity * 100).toFixed(0) }}%</p>
         </div>
 
         <!-- Environmental Context -->
-        <div *ngIf="moodBoard.mood_analysis.environmental_context" class="analysis-card environmental">
+        <div *ngIf="moodBoard.environmental_context" class="analysis-card environmental">
           <h4>Environment</h4>
-          <p><strong>Location:</strong> {{ moodBoard.mood_analysis.environmental_context.location_type }}</p>
-          <p *ngIf="moodBoard.mood_analysis.environmental_context.activity_indicators.length > 0">
-            <strong>Activities:</strong> {{ moodBoard.mood_analysis.environmental_context.activity_indicators.join(', ') }}
+          <p><strong>Location:</strong> {{ moodBoard.environmental_context.location_type }}</p>
+          <p *ngIf="moodBoard.environmental_context.activity_indicators.length > 0">
+            <strong>Activities:</strong> {{ moodBoard.environmental_context.activity_indicators.join(', ') }}
           </p>
         </div>
 
         <!-- Wellness Indicators -->
-        <div *ngIf="moodBoard.mood_analysis.wellness_indicators" class="analysis-card wellness">
+        <div *ngIf="moodBoard.wellness_indicators" class="analysis-card wellness">
           <h4>Wellness Indicators</h4>
-          <p *ngIf="moodBoard.mood_analysis.wellness_indicators.stress_indicators.length > 0">
-            <strong>Stress Signs:</strong> {{ moodBoard.mood_analysis.wellness_indicators.stress_indicators.join(', ') }}
+          <p *ngIf="moodBoard.wellness_indicators.stress_indicators.length > 0">
+            <strong>Stress Signs:</strong> {{ moodBoard.wellness_indicators.stress_indicators.join(', ') }}
           </p>
-          <p>{{ moodBoard.mood_analysis.wellness_indicators.overall_assessment }}</p>
+          <p>{{ moodBoard.wellness_indicators.overall_assessment }}</p>
         </div>
 
         <!-- Summary & Confidence -->
         <div class="analysis-card summary">
-          <p><em>{{ moodBoard.mood_analysis.summary }}</em></p>
-          <p class="confidence">Confidence: {{ (moodBoard.mood_analysis.interpretation_confidence * 100).toFixed(0) }}%</p>
+          <p><em>{{ moodBoard.summary }}</em></p>
+          <p class="confidence">Confidence: {{ (moodBoard.interpretation_confidence * 100).toFixed(0) }}%</p>
         </div>
       </div>
     </div>

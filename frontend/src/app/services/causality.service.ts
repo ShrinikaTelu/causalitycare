@@ -25,27 +25,31 @@ export interface SafetyFlags {
  * MoodBoard: Image analysis results
  */
 export interface MoodBoard {
-  visual_mood: {
-    colors: string;
-    composition: string;
-    primary_subjects: string[];
+  mood_analysis: {
+    visual_mood: {
+      colors: string;
+      composition: string;
+      primary_subjects: string[];
+    };
+    emotional_signals: {
+      primary_emotions: string[];
+      energy_level: string;
+      emotional_intensity: number;
+    };
+    environmental_context: {
+      location_type: string;
+      activity_indicators: string[];
+      social_context?: string;
+    };
+    wellness_indicators: {
+      stress_indicators: string[];
+      overall_assessment?: string;
+      energy_indicators?: string[];
+      wellness_markers?: string[];
+    };
+    summary: string;
+    interpretation_confidence: number;
   };
-  emotional_signals: {
-    primary_emotions: string[];
-    energy_level: string;
-    emotional_intensity: number;
-  };
-  environmental_context: {
-    location_type: string;
-    activity_indicators: string[];
-    social_context?: string;
-  };
-  wellness_indicators: {
-    stress_indicators: string[];
-    overall_assessment: string;
-  };
-  summary: string;
-  interpretation_confidence: number;
 }
 
 /**
