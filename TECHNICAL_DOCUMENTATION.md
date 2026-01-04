@@ -525,29 +525,249 @@ npm start
 ```
 
 ### Docker
+
+**Build Locally**:
+```bash
+docker build -f backend/Dockerfile -t causalitycare-backend .
+```
+
+**Run Container**:
+```bash
+docker run -p 8000:8000 \
+  -e GEMINI_API_KEY=your_key \
+  -e ENVIRONMENT=production \
+  causalitycare-backend
+```
+
+**Dockerfile Configuration**:
 ```dockerfile
 FROM python:3.9-slim
 WORKDIR /app
 COPY backend/requirements.txt .
 RUN pip install -r requirements.txt
-COPY backend/ ./backend/
+COPY backend/ .
 EXPOSE 8000
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0"]
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD python -c "import requests; requests.get('http://localhost:8000/health')" || exit 1
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
-```bash
-docker build -t causalitycare .
-docker run -e GEMINI_API_KEY=$KEY -p 8000:8000 causalitycare
+### Railway Deployment (Production)
+
+#### Prerequisites
+- Railway account ([Sign up here](https://railway.app))
+- GitHub repository with CausalityCare code
+- Google Gemini API key
+
+#### Step 1: Connect GitHub Repository
+1. Log in to [Railway Dashboard](https://railway.app)
+2. Click **New Project** → **Deploy from GitHub repo**
+3. Select your GitHub account and `causalitycare` repository
+4. Choose deployment strategy:
+   - **Auto-deploy on push** (Recommended)
+   - **Manual deploy**
+
+#### Step 2: Configure Railway Project
+1. Name project: `causalitycare` or `causalitycare-backend`
+2. Select starter plan (auto-scales as needed)
+3. Railway auto-detects the Dockerfile
+4. Set **Root Directory** to `backend` if needed
+
+#### Step 3: Environment Variables
+Set these in Railway **Variables** section:
+
+| Key | Value | Sensitive |
+|-----|-------|-----------|
+| `GEMINI_API_KEY` | Your API key | ✅ Yes |
+| `ENVIRONMENT` | `production` | ❌ No |
+| `DEBUG` | `false` | ❌ No |
+| `DATABASE_URL` | sqlite:///./causalitycare.db | ❌ No |
+| `API_HOST` | 0.0.0.0 | ❌ No |
+| `API_PORT` | 8000 | ❌ No |
+
+#### Step 4: Deploy
+1. Connect repository
+2. Railway automatically detects and builds Dockerfile
+3. Application deploys to `https://your-project.up.railway.app`
+4. View logs in Railway Dashboard
+
+#### Automatic Deployment Flow
+```
+git push origin main
+  ↓
+Railway detects push
+  ↓
+Docker image builds
+  ↓
+Container starts
+  ↓
+Health checks run
+  ↓
+Traffic routed if healthy
 ```
 
-### Cloud (Heroku)
+### Health Checks & Monitoring
+
+**Built-in Health Endpoint**:
 ```bash
-heroku create causalitycare
-git push heroku main
-heroku config:set GEMINI_API_KEY=your_key
+curl https://your-deployment.up.railway.app/health
+# Response: 200 OK
+```
+
+**Docker HEALTHCHECK**:
+- Interval: 30 seconds
+- Timeout: 10 seconds
+- Start period: 5 seconds
+- Retries: 3 before restart
+
+**Railway Monitoring**:
+- View real-time logs in Dashboard
+- Check uptime and deployment history
+- Monitor CPU, memory, and network metrics
+- Set alerts for failures
+
+### Database Management
+
+**SQLite (Current)**:
+- ✅ Zero configuration
+- ✅ Great for MVP/prototyping
+- ⚠️ Not suitable for high concurrency
+- Location: Railway mounted volume at `./causalitycare.db`
+
+**PostgreSQL (Production Recommended)**:
+1. Add PostgreSQL service in Railway Dashboard
+2. Get connection string: `postgresql://user:password@host:5432/railway`
+3. Update Railway variable: `DATABASE_URL=postgresql://user:password@host:5432/railway`
+4. Install driver: `pip install psycopg2-binary`
+
+### Troubleshooting Deployments
+
+**Build Fails**:
+- Check Railway Logs for specific errors
+- Verify Dockerfile is in repository
+- Ensure requirements.txt has valid packages
+- Test locally: `docker build -f Dockerfile -t test .`
+
+**Application Crashes**:
+- Verify GEMINI_API_KEY is set
+- Check startup logs in Railway
+- Ensure Python version 3.9+
+- Test locally with docker
+
+**502 Bad Gateway**:
+- Check health endpoint: `https://.../health`
+- Verify port 8000 is exposed in Dockerfile
+- Check Railway Metrics for crashes
+- Review logs for errors
+
+**Health Check Timeout**:
+- Increase start-period if startup is slow
+- Verify API responds to health checks
+- Check network connectivity
+- Monitor for infinite loops in startup
+
+**Database Locked**:
+- Upgrade to PostgreSQL (recommended)
+- Reduce concurrent connections
+- Add retry logic: `connect_args={"timeout": 15}`
+- Use WAL mode in SQLite
+
+### Performance Tuning
+
+**Uvicorn Workers**:
+```python
+# main.py
+workers = 4  # Adjust based on CPU cores
+uvicorn.run(app, workers=workers)
+```
+
+**Processing Timeouts**:
+```python
+IMAGE_PROCESSING_TIMEOUT = 30    # seconds
+AUDIO_PROCESSING_TIMEOUT = 40    # seconds
+TEXT_PROCESSING_TIMEOUT = 20     # seconds
+```
+
+**Database Connection Pooling**:
+```python
+from sqlalchemy.pool import QueuePool
+
+engine = create_engine(
+    database_url,
+    poolclass=QueuePool,
+    pool_size=10,
+    max_overflow=20,
+    pool_pre_ping=True
+)
+```
+
+**Add Redis Caching**:
+```bash
+pip install redis
+# Add Redis service in Railway
+# Set: REDIS_URL=redis://user:pass@host:6379
+```
+
+### Custom Domain Setup
+
+1. **In Railway Dashboard**:
+   - Settings → Domains
+   - Add your domain: `api.yourdomain.com`
+
+2. **Update DNS**:
+   - Get CNAME from Railway
+   - Add to DNS provider (Cloudflare, Route53, etc.)
+
+3. **SSL Certificate**:
+   - Railway auto-provisions Let's Encrypt certificate
+   - HTTPS enabled by default
+
+### Deployment History & Rollback
+
+**View Deployments**:
+- Dashboard → **Deployments** tab
+- Shows timestamp, status, and logs
+
+**Rollback to Previous Version**:
+1. **Deployments** tab
+2. Find stable deployment
+3. Click **Redeploy**
+4. Deployment automatically rolled back
+
+### Backup & Disaster Recovery
+
+**Database Backups**:
+- PostgreSQL: Enable automated backups in Railway
+- SQLite: Export periodically: `scp railway:/app/causalitycare.db ./backup/`
+
+**Code Backups**:
+- GitHub is your backup (all commits stored)
+- Tag important releases: `git tag v2.1.0-prod`
+
+**Recovery Plan**:
+1. Service down → Click **Redeploy** in Railway
+2. Data loss → Restore from backup
+3. Code issues → Rollback to previous deployment
+
+### Security Best Practices
+
+✅ **Secrets Management**: Railway handles sensitive variables  
+✅ **HTTPS**: Railway provides free SSL/TLS  
+✅ **Database**: Use PostgreSQL with encryption  
+⚠️ **CORS**: Currently allows all origins. Restrict in production:
+```python
+allow_origins=[
+    "https://yourdomain.com",
+    "https://www.yourdomain.com"
+]
+```
+⚠️ **Rate Limiting**: Add for production:
+```bash
+pip install slowapi
 ```
 
 ---
+
 
 ## Performance Metrics
 
